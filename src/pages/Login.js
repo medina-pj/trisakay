@@ -7,8 +7,8 @@ import InputField from '../components/InputField';
 import ButtonField from '../components/Button';
 
 // hooks
-import { useAccount } from '../hooks/useAccount';
-import { useAuthContext } from '../hooks/useAuthContext';
+import useAccount from '../hooks/useAccount';
+import useAuthContext from '../hooks/useAuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('test+6@gmail.com');

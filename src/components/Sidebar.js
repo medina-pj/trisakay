@@ -25,9 +25,9 @@ const SidebarItems = [
     path: '/accounts/admin',
   },
   {
-    name: 'Users',
+    name: 'Riders',
     icon: <GroupIcon />,
-    path: '/accounts/user',
+    path: '/accounts/rider',
   },
 ];
 

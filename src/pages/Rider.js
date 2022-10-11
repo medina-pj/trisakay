@@ -19,18 +19,22 @@ import ModalComponent from '../components/Modal';
 
 // hooks
 import useAccount from '../hooks/useAccount';
+import useRider from '../hooks/useRider';
 
 const ManageAccountComponent = () => {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [contactNumber, setContactNumber] = useState('');
   const [email, setEmail] = useState('');
+  const [plateNumber, setPlateNumber] = useState('');
+  const [licenseNumber, setLicenseNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const { error, signUp } = useAccount();
+  const account = useAccount();
+  const rider = useRider();
 
-  const onSignup = async () => {
+  const onCreate = async () => {
     try {
       // sign up account
       const payload = {
@@ -42,7 +46,10 @@ const ManageAccountComponent = () => {
         userType: 'admin',
       };
 
-      await signUp(payload);
+      const riderAccount = await account.signUp(payload);
+
+      // save rider details
+      await rider.create({ accountID: riderAccount.account.id, licenseNumber, plateNumber });
     } catch (error) {
       console.log(error);
     }
@@ -81,6 +88,20 @@ const ManageAccountComponent = () => {
       />
 
       <InputField
+        label='license number'
+        onChange={e => setLicenseNumber(e.target.value)}
+        value={licenseNumber}
+        style={{ width: '100%' }}
+      />
+
+      <InputField
+        label='plate number'
+        onChange={e => setPlateNumber(e.target.value)}
+        value={plateNumber}
+        style={{ width: '100%' }}
+      />
+
+      <InputField
         label='password'
         onChange={e => setPassword(e.target.value)}
         value={password}
@@ -95,21 +116,22 @@ const ManageAccountComponent = () => {
         style={{ width: '100%' }}
       />
 
-      <ButtonField label='Signup' onClick={onSignup} />
+      <ButtonField label='Signup' onClick={onCreate} />
 
-      <p>{error}</p>
+      <p>{account.error}</p>
+      <p>{rider.error}</p>
     </Container>
   );
 };
 
-export default function Admin() {
+export default function Rider() {
   const [modalIsActive, setModalIsActive] = useState(false);
-  const { documents, deleteRecord } = useAccount('admin');
+  const { documents, deleteRecord } = useRider();
 
-  const onDelete = async id => {
+  const onDelete = async (account, rider) => {
     if (!window.confirm('Are you sure you want to delete this record?')) return;
 
-    await deleteRecord(id);
+    await deleteRecord(account, rider);
   };
 
   return (
@@ -128,6 +150,9 @@ export default function Admin() {
               <TableCell>Name</TableCell>
               <TableCell>Contact Number</TableCell>
               <TableCell>Email Address</TableCell>
+              <TableCell>License No.</TableCell>
+              <TableCell>Plate No.</TableCell>
+              <TableCell>Status</TableCell>
               <TableCell>Created At</TableCell>
               <TableCell></TableCell>
             </TableRow>
@@ -135,6 +160,8 @@ export default function Admin() {
           <TableBody>
             {documents &&
               documents.map((data, i) => {
+                console.log(data);
+
                 return (
                   <TableRow
                     key={data.id}
@@ -148,11 +175,14 @@ export default function Admin() {
                     </TableCell>
                     <TableCell>{data.contactNumber}</TableCell>
                     <TableCell>{data.emailAddress}</TableCell>
+                    <TableCell>{data.licenseNumber}</TableCell>
+                    <TableCell>{data.plateNumber}</TableCell>
+                    <TableCell>{data.status}</TableCell>
                     <TableCell>
                       {moment(new Date(data.createdAt)).format('MMM. DD, YYYY hh:mm a')}
                     </TableCell>
                     <TableCell>
-                      <IconButton size='large' onClick={() => onDelete(data.id)}>
+                      <IconButton size='large' onClick={() => onDelete(data.accountID, data.id)}>
                         <DeleteIcon fontSize='inherit' />
                       </IconButton>
                     </TableCell>

@@ -12,7 +12,8 @@ import Admin from './pages/Admin';
 import Login from './pages/Login';
 
 // hooks
-import { useAuthContext } from './hooks/useAuthContext';
+import useAuthContext from './hooks/useAuthContext';
+import Rider from './pages/Rider';
 
 const ContentWrapper = ({ children, sidebarIsActive }) => {
   return (
@@ -74,11 +75,11 @@ function App() {
             />
 
             <Route
-              path='/accounts/user'
+              path='/accounts/rider'
               element={
                 <Fragment>
                   <ContentWrapper sidebarIsActive={sidebarIsActive}>
-                    <div>USERS</div>
+                    <Rider />
                   </ContentWrapper>
 
                   {!user && <Navigate to='/login' />}

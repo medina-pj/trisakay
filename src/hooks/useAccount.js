@@ -18,9 +18,9 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 
-import { useAuthContext } from './useAuthContext';
+import useAuthContext from './useAuthContext';
 
-export const useAccount = userType => {
+const useAccount = userType => {
   const [documents, setDocuments] = useState([]);
   const [error, setError] = useState(null);
   const { user } = useAuthContext();
@@ -33,14 +33,14 @@ export const useAccount = userType => {
       const unsub = onSnapshot(qry, snapshot => {
         let results = [];
 
-        snapshot.docs.forEach(async doc => {
+        for (const doc of snapshot.docs) {
           if (doc.data().authUID !== user.auth.uid) {
             results.push({
               ...doc.data(),
               id: doc.id,
             });
           }
-        });
+        }
 
         results.sort((a, b) => b.createdAt - a.createdAt);
 
@@ -74,7 +74,7 @@ export const useAccount = userType => {
       return {
         auth: user,
         account: {
-          uid: createAccount.id,
+          id: createAccount.id,
           ...accountPayload,
         },
       };
@@ -115,6 +115,10 @@ export const useAccount = userType => {
         id: doc.id,
       }));
 
+      if (account[0].userType !== 'admin') {
+        throw new Error('Account is unauthorized.');
+      }
+
       return {
         auth: user,
         account: account[0],
@@ -140,3 +144,5 @@ export const useAccount = userType => {
 
   return { error, signUp, logout, login, documents, deleteRecord };
 };
+
+export default useAccount;

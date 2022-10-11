@@ -4,7 +4,7 @@ import { db } from '../firebase/config';
 // firebase imports
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 
-export const useCollection = c => {
+const useCollection = c => {
   const [documents, setDocuments] = useState([]);
 
   useEffect(() => {
@@ -29,3 +29,5 @@ export const useCollection = c => {
 
   return { documents };
 };
+
+export default useCollection;

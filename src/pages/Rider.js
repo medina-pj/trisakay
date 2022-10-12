@@ -20,22 +20,48 @@ import ModalComponent from '../components/Modal';
 // hooks
 import useAccount from '../hooks/useAccount';
 import useRider from '../hooks/useRider';
+import useUpload from '../hooks/useUpload';
 
 const ManageAccountComponent = () => {
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
-  const [email, setEmail] = useState('');
-  const [plateNumber, setPlateNumber] = useState('');
-  const [licenseNumber, setLicenseNumber] = useState('');
+  const [firstname, setFirstname] = useState('rider fn 6');
+  const [lastname, setLastname] = useState('rider ln 6');
+  const [contactNumber, setContactNumber] = useState('09171231234');
+  const [email, setEmail] = useState('rider+6@gmail.com');
+  const [plateNumber, setPlateNumber] = useState('100200300');
+  const [licenseNumber, setLicenseNumber] = useState('300200100');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [profilePhoto, setProfilePhoto] = useState('');
+  const [licenseId, setLicenseId] = useState('');
 
   const account = useAccount();
   const rider = useRider();
+  const storage = useUpload();
 
   const onCreate = async () => {
     try {
+      let files = [];
+
+      // upload profile photo
+      if (profilePhoto) {
+        const url = await storage.upload(profilePhoto);
+
+        files.push({
+          type: 'profile',
+          url,
+        });
+      }
+
+      // upload license id
+      if (licenseId) {
+        const url = await storage.upload(licenseId);
+
+        files.push({
+          type: 'license',
+          url,
+        });
+      }
+
       // sign up account
       const payload = {
         email,
@@ -49,9 +75,19 @@ const ManageAccountComponent = () => {
       const riderAccount = await account.signUp(payload);
 
       // save rider details
-      await rider.create({ accountID: riderAccount.account.id, licenseNumber, plateNumber });
+      await rider.create({ accountID: riderAccount.account.id, licenseNumber, plateNumber, files });
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const onFileChange = async (event, state) => {
+    if (state === 'profile') {
+      setProfilePhoto(event.target.files[0]);
+    }
+
+    if (state === 'license') {
+      setLicenseId(event.target.files[0]);
     }
   };
 
@@ -108,11 +144,28 @@ const ManageAccountComponent = () => {
         type='password'
         style={{ width: '100%' }}
       />
+
       <InputField
         label='confirm password'
         onChange={e => setConfirmPassword(e.target.value)}
         value={confirmPassword}
         type='password'
+        style={{ width: '100%' }}
+      />
+
+      <InputField
+        label='Profile photo'
+        InputLabelProps={{ shrink: true }}
+        onChange={e => onFileChange(e, 'profile')}
+        type='file'
+        style={{ width: '100%' }}
+      />
+
+      <InputField
+        label='License ID'
+        InputLabelProps={{ shrink: true }}
+        onChange={e => onFileChange(e, 'license')}
+        type='file'
         style={{ width: '100%' }}
       />
 

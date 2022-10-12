@@ -27,6 +27,17 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async user => {
+      if (!user) {
+        dispatch({
+          type: 'AUTH_IS_READY',
+          payload: null,
+        });
+
+        unsub();
+
+        return;
+      }
+
       // get account details
       const ref = collection(db, 'accounts');
       const q = query(ref, where('authUID', '==', user.uid));

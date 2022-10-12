@@ -7,6 +7,7 @@ const InputField = ({
   onChange = () => null,
   style = {},
   type = 'input',
+  InputLabelProps = {},
 }) => {
   return (
     <TextField
@@ -20,6 +21,7 @@ const InputField = ({
       variant={variant}
       value={value}
       onChange={onChange}
+      InputLabelProps={InputLabelProps}
     />
   );
 };

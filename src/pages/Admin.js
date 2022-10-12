@@ -87,6 +87,7 @@ const ManageAccountComponent = () => {
         type='password'
         style={{ width: '100%' }}
       />
+
       <InputField
         label='confirm password'
         onChange={e => setConfirmPassword(e.target.value)}

@@ -44,6 +44,7 @@ export const useRider = () => {
         accountID: payload.accountID,
         licenseNumber: payload.licenseNumber,
         plateNumber: payload.plateNumber,
+        files: payload.files || [],
         status: 'pending',
         createdAt: Date.now(),
       };

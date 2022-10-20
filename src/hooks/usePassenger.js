@@ -1,30 +1,28 @@
 import { useState, useEffect } from 'react';
 
-// config
 import { db } from '../firebase/config';
 
-// firebase/firestore
 import { collection, getDoc, query, addDoc, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
 
-const useRider = () => {
+const usePassenger = () => {
   const [error, setError] = useState(null);
   const [documents, setDocuments] = useState(null);
 
   useEffect(() => {
-    let ref = collection(db, 'riders');
+    let ref = collection(db, 'passengers');
     let qry = query(ref);
 
     const unsub = onSnapshot(qry, async snapshot => {
       let results = [];
 
-      for (const riderDoc of snapshot.docs) {
-        const accountRef = doc(db, 'accounts', riderDoc.data().accountID);
+      for (const passengerDoc of snapshot.docs) {
+        const accountRef = doc(db, 'accounts', passengerDoc.data().accountID);
         const accountSnap = await getDoc(accountRef);
 
         results.push({
-          ...riderDoc.data(),
+          ...passengerDoc.data(),
           ...accountSnap.data(),
-          id: riderDoc.id,
+          id: passengerDoc.id,
         });
       }
 
@@ -40,35 +38,33 @@ const useRider = () => {
     try {
       setError(null);
 
-      const riderPayload = {
+      const passengerPayload = {
         accountID: payload.accountID,
-        licenseNumber: payload.licenseNumber,
-        plateNumber: payload.plateNumber,
         files: payload.files || [],
         status: 'pending',
         createdAt: Date.now(),
       };
 
-      const createRider = await addDoc(collection(db, 'riders'), riderPayload);
+      const createPassenger = await addDoc(collection(db, 'passengers'), passengerPayload);
 
       return {
-        ...riderPayload,
-        id: createRider.id,
+        ...passengerPayload,
+        id: createPassenger.id,
       };
     } catch (error) {
       setError(error.message);
     }
   };
 
-  const deleteRecord = async (account, rider) => {
+  const deleteRecord = async (account, passenger) => {
     try {
       setError(null);
 
       const deleteAccount = doc(db, 'accounts', account);
-      const deleteRider = doc(db, 'riders', rider);
+      const deletePassenger = doc(db, 'riders', passenger);
 
       await deleteDoc(deleteAccount);
-      await deleteDoc(deleteRider);
+      await deleteDoc(deletePassenger);
 
       return null;
     } catch (err) {
@@ -79,4 +75,4 @@ const useRider = () => {
   return { error, create, documents, deleteRecord };
 };
 
-export default useRider;
+export default usePassenger;

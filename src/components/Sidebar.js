@@ -29,6 +29,11 @@ const SidebarItems = [
     icon: <GroupIcon />,
     path: '/accounts/rider',
   },
+  {
+    name: 'Passengers',
+    icon: <GroupIcon />,
+    path: '/accounts/passenger',
+  },
 ];
 
 const Sidebar = ({ sidebarIsActive, setSidebarIsActive }) => {

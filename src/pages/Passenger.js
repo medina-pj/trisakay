@@ -19,23 +19,20 @@ import ModalComponent from '../components/Modal';
 
 // hooks
 import useAccount from '../hooks/useAccount';
-import useRider from '../hooks/useRider';
 import useUpload from '../hooks/useUpload';
+import usePassenger from '../hooks/usePassenger';
 
-const ManageRiderComponent = () => {
-  const [firstname, setFirstname] = useState('rider fn 6');
-  const [lastname, setLastname] = useState('rider ln 6');
+const ManagePassengerComponent = () => {
+  const [firstname, setFirstname] = useState('passenger fn 1');
+  const [lastname, setLastname] = useState('passenger ln 1');
   const [contactNumber, setContactNumber] = useState('09171231234');
-  const [email, setEmail] = useState('rider+6@gmail.com');
-  const [plateNumber, setPlateNumber] = useState('100200300');
-  const [licenseNumber, setLicenseNumber] = useState('300200100');
+  const [email, setEmail] = useState('passenger+1@gmail.com');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [profilePhoto, setProfilePhoto] = useState('');
-  const [licenseId, setLicenseId] = useState('');
 
   const account = useAccount();
-  const rider = useRider();
+  const passenger = usePassenger();
   const storage = useUpload();
 
   const onCreate = async () => {
@@ -52,16 +49,6 @@ const ManageRiderComponent = () => {
         });
       }
 
-      // upload license id
-      if (licenseId) {
-        const url = await storage.upload(licenseId);
-
-        files.push({
-          type: 'license',
-          url,
-        });
-      }
-
       // sign up account
       const payload = {
         email,
@@ -69,13 +56,13 @@ const ManageRiderComponent = () => {
         firstname,
         lastname,
         contactNumber,
-        userType: 'rider',
+        userType: 'passenger',
       };
 
-      const riderAccount = await account.signUp(payload);
+      const PassengerAccount = await account.signUp(payload);
 
-      // save rider details
-      await rider.create({ accountID: riderAccount.account.id, licenseNumber, plateNumber, files });
+      // save passenger details
+      await passenger.create({ accountID: PassengerAccount.account.id, files });
     } catch (error) {
       console.log(error);
     }
@@ -85,15 +72,11 @@ const ManageRiderComponent = () => {
     if (state === 'profile') {
       setProfilePhoto(event.target.files[0]);
     }
-
-    if (state === 'license') {
-      setLicenseId(event.target.files[0]);
-    }
   };
 
   return (
     <Container style={{ paddingLeft: 0 }}>
-      <Typography style={{ margin: 10, fontSize: '1.2em' }}>Create Rider Account</Typography>
+      <Typography style={{ margin: 10, fontSize: '1.2em' }}>Create Passenger Account</Typography>
 
       <InputField
         label='first name'
@@ -122,19 +105,6 @@ const ManageRiderComponent = () => {
         value={email}
         style={{ width: '100%' }}
       />
-      <InputField
-        label='license number'
-        onChange={e => setLicenseNumber(e.target.value)}
-        value={licenseNumber}
-        style={{ width: '100%' }}
-      />
-
-      <InputField
-        label='plate number'
-        onChange={e => setPlateNumber(e.target.value)}
-        value={plateNumber}
-        style={{ width: '100%' }}
-      />
 
       <InputField
         label='password'
@@ -160,30 +130,22 @@ const ManageRiderComponent = () => {
         style={{ width: '100%' }}
       />
 
-      <InputField
-        label='License ID'
-        InputLabelProps={{ shrink: true }}
-        onChange={e => onFileChange(e, 'license')}
-        type='file'
-        style={{ width: '100%' }}
-      />
-
       <ButtonField label='Signup' onClick={onCreate} />
 
       <p>{account.error}</p>
-      <p>{rider.error}</p>
+      <p>{passenger.error}</p>
     </Container>
   );
 };
 
-export default function Rider() {
+const Passenger = () => {
   const [modalIsActive, setModalIsActive] = useState(false);
-  const { documents, deleteRecord } = useRider();
+  const { documents, deleteRecord } = usePassenger();
 
-  const onDelete = async (account, rider) => {
+  const onDelete = async (account, passenger) => {
     if (!window.confirm('Are you sure you want to delete this record?')) return;
 
-    await deleteRecord(account, rider);
+    await deleteRecord(account, passenger);
   };
 
   return (
@@ -202,8 +164,6 @@ export default function Rider() {
               <TableCell>Name</TableCell>
               <TableCell>Contact Number</TableCell>
               <TableCell>Email Address</TableCell>
-              <TableCell>License No.</TableCell>
-              <TableCell>Plate No.</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Created At</TableCell>
               <TableCell></TableCell>
@@ -227,8 +187,6 @@ export default function Rider() {
                     </TableCell>
                     <TableCell>{data.contactNumber}</TableCell>
                     <TableCell>{data.emailAddress}</TableCell>
-                    <TableCell>{data.licenseNumber}</TableCell>
-                    <TableCell>{data.plateNumber}</TableCell>
                     <TableCell>{data.status}</TableCell>
                     <TableCell>
                       {moment(new Date(data.createdAt)).format('MMM. DD, YYYY hh:mm a')}
@@ -246,8 +204,10 @@ export default function Rider() {
       </TableContainer>
 
       <ModalComponent isActive={modalIsActive} setIsActive={setModalIsActive}>
-        <ManageRiderComponent />
+        <ManagePassengerComponent />
       </ModalComponent>
     </Box>
   );
-}
+};
+
+export default Passenger;

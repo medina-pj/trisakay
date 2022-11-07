@@ -11,12 +11,13 @@ import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import GroupIcon from '@mui/icons-material/Group';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Link } from 'react-router-dom';
 
 const SidebarItems = [
   {
-    name: 'Dashboard',
-    icon: <DashboardIcon />,
+    name: 'Bookings',
+    icon: <CalendarMonthIcon />,
     path: '/',
   },
   {

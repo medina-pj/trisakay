@@ -18,7 +18,7 @@ import InputField from '../components/InputField';
 import ModalComponent from '../components/Modal';
 
 // hooks
-import useAccount from '../hooks/useAccount';
+import useAdmin from '../hooks/useAdmin';
 
 const ManageAccountComponent = () => {
   const [firstname, setFirstname] = useState('');
@@ -28,7 +28,7 @@ const ManageAccountComponent = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const { error, signUp } = useAccount();
+  const { error, signUp } = useAdmin();
 
   const onSignup = async () => {
     try {
@@ -43,6 +43,13 @@ const ManageAccountComponent = () => {
       };
 
       await signUp(payload);
+
+      setFirstname('');
+      setLastname('');
+      setContactNumber('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
     } catch (error) {
       console.log(error);
     }
@@ -105,7 +112,7 @@ const ManageAccountComponent = () => {
 
 export default function Admin() {
   const [modalIsActive, setModalIsActive] = useState(false);
-  const { documents, deleteRecord } = useAccount('admin');
+  const { documents, deleteRecord } = useAdmin();
 
   const onDelete = async id => {
     if (!window.confirm('Are you sure you want to delete this record?')) return;

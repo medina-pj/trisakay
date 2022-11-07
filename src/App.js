@@ -16,6 +16,7 @@ import useAuthContext from './hooks/useAuthContext';
 import Rider from './pages/Rider';
 
 import Passenger from './pages/Passenger';
+import Booking from './pages/Booking';
 
 const ContentWrapper = ({ children, sidebarIsActive }) => {
   return (
@@ -55,10 +56,10 @@ function App() {
               element={
                 <Fragment>
                   <ContentWrapper sidebarIsActive={sidebarIsActive}>
-                    <div>DASHBOARD</div>
+                    <Booking />
                   </ContentWrapper>
 
-                  {!user && <Navigate to='/login' />}
+                  {!user && <Navigate to='/' />}
                 </Fragment>
               }
             />
@@ -76,7 +77,7 @@ function App() {
               }
             />
 
-            <Route
+            {/* <Route
               path='/accounts/rider'
               element={
                 <Fragment>
@@ -87,9 +88,9 @@ function App() {
                   {!user && <Navigate to='/login' />}
                 </Fragment>
               }
-            />
+            /> */}
 
-            <Route
+            {/* <Route
               path='/accounts/passenger'
               element={
                 <Fragment>
@@ -100,17 +101,7 @@ function App() {
                   {!user && <Navigate to='/login' />}
                 </Fragment>
               }
-            />
-
-            <Route
-              path='/login'
-              element={
-                <Fragment>
-                  <Login />
-                  {user && <Navigate to='/' />}
-                </Fragment>
-              }
-            />
+            /> */}
           </Routes>
         </BrowserRouter>
       )}

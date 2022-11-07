@@ -7,15 +7,15 @@ import InputField from '../components/InputField';
 import ButtonField from '../components/Button';
 
 // hooks
-import useAccount from '../hooks/useAccount';
+import useAdmin from '../hooks/useAdmin';
 import useAuthContext from '../hooks/useAuthContext';
 
 const Login = () => {
-  const [email, setEmail] = useState('test+6@gmail.com');
-  const [password, setPassword] = useState('123123123');
+  const [email, setEmail] = useState('admin+01@gmail.com');
+  const [password, setPassword] = useState('123456789');
 
   // hooks
-  const { error, login } = useAccount();
+  const { error, login } = useAdmin();
   const { dispatch } = useAuthContext();
 
   const onLogin = async () => {

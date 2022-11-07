@@ -39,7 +39,7 @@ export const AuthContextProvider = ({ children }) => {
       }
 
       // get account details
-      const ref = collection(db, 'accounts');
+      const ref = collection(db, 'Admin_Collection');
       const q = query(ref, where('authUID', '==', user.uid));
       const querySnapshot = await getDocs(q);
 

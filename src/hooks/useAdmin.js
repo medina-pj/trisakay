@@ -20,26 +20,30 @@ import {
 
 import useAuthContext from './useAuthContext';
 
-const useAccount = userType => {
+const useAdmin = () => {
   const [documents, setDocuments] = useState([]);
   const [error, setError] = useState(null);
   const { user } = useAuthContext();
 
   useEffect(() => {
-    if (userType && user) {
-      let ref = collection(db, 'accounts');
-      let qry = query(ref, where('userType', '==', userType));
+    if (user) {
+      let ref = collection(db, 'Admin_Collection');
+      let qry = query(ref);
 
       const unsub = onSnapshot(qry, snapshot => {
         let results = [];
 
         for (const doc of snapshot.docs) {
-          if (doc.data().authUID !== user.auth.uid) {
-            results.push({
-              ...doc.data(),
-              id: doc.id,
-            });
-          }
+          results.push({
+            ...doc.data(),
+            id: doc.id,
+          });
+          // if (doc.data().authUID !== user.auth.uid) {
+          //   results.push({
+          //     ...doc.data(),
+          //     id: doc.id,
+          //   });
+          // }
         }
 
         results.sort((a, b) => b.createdAt - a.createdAt);
@@ -49,7 +53,7 @@ const useAccount = userType => {
 
       return () => unsub();
     }
-  }, [userType, user]);
+  }, [user]);
 
   const signUp = async payload => {
     try {
@@ -102,7 +106,7 @@ const useAccount = userType => {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
 
       // get account details
-      const ref = collection(db, 'accounts');
+      const ref = collection(db, 'Admin_Collection');
       const q = query(ref, where('authUID', '==', user.uid));
       const querySnapshot = await getDocs(q);
 
@@ -114,10 +118,6 @@ const useAccount = userType => {
         ...doc.data(),
         id: doc.id,
       }));
-
-      if (account[0].userType !== 'admin') {
-        throw new Error('Account is unauthorized.');
-      }
 
       return {
         auth: user,
@@ -132,7 +132,7 @@ const useAccount = userType => {
     try {
       setError(null);
 
-      const ref = doc(db, 'accounts', id);
+      const ref = doc(db, 'Admin_Collection', id);
 
       await deleteDoc(ref);
 
@@ -145,4 +145,4 @@ const useAccount = userType => {
   return { error, signUp, logout, login, documents, deleteRecord };
 };
 
-export default useAccount;
+export default useAdmin;

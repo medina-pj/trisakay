@@ -8,11 +8,11 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
 // hooks
-import useAccount from '../hooks/useAccount';
 import useAuthContext from '../hooks/useAuthContext';
+import useAdmin from '../hooks/useAdmin';
 
 const Navbar = ({ toggleSidebar }) => {
-  const { logout } = useAccount();
+  const { logout } = useAdmin();
   const { dispatch } = useAuthContext();
 
   const onLogout = async () => {

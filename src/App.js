@@ -59,7 +59,17 @@ function App() {
                     <Booking />
                   </ContentWrapper>
 
-                  {!user && <Navigate to='/' />}
+                  {!user && <Navigate to='/login' />}
+                </Fragment>
+              }
+            />
+
+            <Route
+              path='/login'
+              element={
+                <Fragment>
+                  <Login />
+                  {user && <Navigate to='/' />}
                 </Fragment>
               }
             />

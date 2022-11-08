@@ -53,7 +53,7 @@ export default function Booking() {
                     </TableCell>
                     <TableCell>{data.booking_date}</TableCell>
                     <TableCell>{data?.passenger?.user_name || ''}</TableCell>
-                    <TableCell>{data?.rider?.rider_name || ''}</TableCell>
+                    <TableCell>{data?.rider?.user_name || ''}</TableCell>
                     <TableCell>{data.booking_distance}</TableCell>
                     <TableCell>{data.booking_total}</TableCell>
                     <TableCell>{data.booking_status}</TableCell>

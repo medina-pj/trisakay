@@ -30,7 +30,7 @@ export default function useBooking() {
         }
 
         if (bookingDoc.data().booking_riderID) {
-          const riderRef = doc(db, 'Rider_Collection', bookingDoc.data().booking_riderID);
+          const riderRef = doc(db, 'User_Collection', bookingDoc.data().booking_riderID);
           const riderSnap = await getDoc(riderRef);
           rider = { ...riderSnap.data() };
         }

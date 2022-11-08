@@ -1,6 +1,9 @@
 import { useState } from 'react';
 
 import { Box } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Container from '@mui/material/Container';
 
 // components
 import InputField from '../components/InputField';
@@ -28,20 +31,50 @@ const Login = () => {
   };
 
   return (
-    <Box>
-      <InputField label='Email Address' onChange={e => setEmail(e.target.value)} value={email} />
+    <Container component='main' maxWidth='xs'>
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+        style={{ height: '100%' }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: '#1976d2' }} style={{ margin: '20px' }}>
+          <LockOutlinedIcon />
+        </Avatar>
 
-      <InputField
-        label='Password'
-        onChange={e => setPassword(e.target.value)}
-        value={password}
-        type='password'
-      />
+        <InputField
+          label='Email Address'
+          onChange={e => setEmail(e.target.value)}
+          value={email}
+          style={{
+            width: '100%',
+          }}
+        />
 
-      <p>{error}</p>
+        <InputField
+          label='Password'
+          onChange={e => setPassword(e.target.value)}
+          value={password}
+          type='password'
+          style={{
+            width: '100%',
+          }}
+        />
 
-      <ButtonField label='Login' onClick={onLogin} />
-    </Box>
+        <ButtonField
+          label='Login'
+          onClick={onLogin}
+          style={{
+            width: '100%',
+          }}
+        />
+
+        <p>{error}</p>
+      </Box>
+    </Container>
   );
 };
 

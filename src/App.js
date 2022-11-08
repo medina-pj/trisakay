@@ -38,7 +38,7 @@ function App() {
   const { user, authIsReady } = useAuthContext();
 
   return (
-    <div style={{ backgroundColor: '#E6E6E6', height: 'max-content' }}>
+    <div style={{ backgroundColor: user ? '#E6E6E6' : '#FFFFFF', height: 'max-content' }}>
       {authIsReady && (
         <BrowserRouter>
           {user && authIsReady && (

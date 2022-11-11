@@ -87,7 +87,7 @@ function App() {
               }
             />
 
-            {/* <Route
+            <Route
               path='/accounts/rider'
               element={
                 <Fragment>
@@ -98,9 +98,9 @@ function App() {
                   {!user && <Navigate to='/login' />}
                 </Fragment>
               }
-            /> */}
+            />
 
-            {/* <Route
+            <Route
               path='/accounts/passenger'
               element={
                 <Fragment>
@@ -111,7 +111,7 @@ function App() {
                   {!user && <Navigate to='/login' />}
                 </Fragment>
               }
-            /> */}
+            />
           </Routes>
         </BrowserRouter>
       )}

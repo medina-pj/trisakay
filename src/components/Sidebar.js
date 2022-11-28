@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 
 const SidebarItems = [
   {
-    name: 'Bookings',
+    name: 'Dashboard',
     icon: <CalendarMonthIcon />,
     path: '/',
   },

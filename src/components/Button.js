@@ -1,14 +1,23 @@
 import Button from '@mui/material/Button';
 
-const ButtonField = ({ label, onClick = () => null, style = {} }) => {
+const ButtonField = ({
+  label,
+  onClick = () => null,
+  style = {},
+  variant = 'contained',
+  color,
+  size,
+}) => {
   return (
     <Button
       style={{
         margin: '10px',
         ...style,
       }}
-      variant='contained'
+      variant={variant}
+      color={color}
       onClick={onClick}
+      size={size}
     >
       {label}
     </Button>

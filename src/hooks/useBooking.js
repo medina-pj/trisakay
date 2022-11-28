@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { db } from '../firebase/config';
 
 // firebase/firestore
-import { collection, getDoc, query, addDoc, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
+import { collection, getDoc, query, onSnapshot, doc } from 'firebase/firestore';
 
 export default function useBooking() {
   const [error, setError] = useState(null);

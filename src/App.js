@@ -17,6 +17,7 @@ import Rider from './pages/Rider';
 
 import Passenger from './pages/Passenger';
 import Booking from './pages/Booking';
+import Settings from './pages/Settings';
 
 const ContentWrapper = ({ children, sidebarIsActive }) => {
   return (
@@ -106,6 +107,19 @@ function App() {
                 <Fragment>
                   <ContentWrapper sidebarIsActive={sidebarIsActive}>
                     <Passenger />
+                  </ContentWrapper>
+
+                  {!user && <Navigate to='/login' />}
+                </Fragment>
+              }
+            />
+
+            <Route
+              path='/settings'
+              element={
+                <Fragment>
+                  <ContentWrapper sidebarIsActive={sidebarIsActive}>
+                    <Settings />
                   </ContentWrapper>
 
                   {!user && <Navigate to='/login' />}

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import moment from 'moment';
 
 import Table from '@mui/material/Table';
@@ -8,22 +7,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Box, Container, Typography } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-
-// components
-import ButtonField from '../components/Button';
-import InputField from '../components/InputField';
-import ModalComponent from '../components/Modal';
+import { Box } from '@mui/material';
 
 // hooks
 import useBooking from '../hooks/useBooking';
 
 export default function Booking() {
-  const { documents, deleteRecord } = useBooking();
-
-  console.log(documents);
+  const { documents } = useBooking();
 
   return (
     <Box>
@@ -43,6 +33,14 @@ export default function Booking() {
           <TableBody>
             {documents &&
               documents.map((data, i) => {
+                const passenger = `${data?.passenger?.user_firstname || ''} ${
+                  data?.passenger?.user_lastname || ''
+                }`;
+
+                const rider = `${data?.rider?.user_firstname || ''} ${
+                  data?.rider?.user_lastname || ''
+                }`;
+
                 return (
                   <TableRow
                     key={data.id}
@@ -51,11 +49,13 @@ export default function Booking() {
                     <TableCell component='th' scope='data'>
                       {i + 1}
                     </TableCell>
-                    <TableCell>{data.booking_date}</TableCell>
-                    <TableCell>{data?.passenger?.user_name || ''}</TableCell>
-                    <TableCell>{data?.rider?.user_name || ''}</TableCell>
+                    <TableCell>
+                      {moment(data.booking_date.seconds * 1000).format('MMM DD, YYYY hh:mm:ss A')}
+                    </TableCell>
+                    <TableCell>{passenger}</TableCell>
+                    <TableCell>{rider}</TableCell>
                     <TableCell>{data.booking_distance}</TableCell>
-                    <TableCell>{data.booking_total}</TableCell>
+                    <TableCell>P {data.booking_total}</TableCell>
                     <TableCell>{data.booking_status}</TableCell>
                   </TableRow>
                 );

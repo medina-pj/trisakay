@@ -2,16 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { db } from '../firebase/config';
 
-import {
-  collection,
-  getDoc,
-  query,
-  addDoc,
-  onSnapshot,
-  doc,
-  deleteDoc,
-  where,
-} from 'firebase/firestore';
+import { collection, query, onSnapshot, where } from 'firebase/firestore';
 
 const usePassenger = () => {
   const [error, setError] = useState(null);
@@ -19,7 +10,7 @@ const usePassenger = () => {
 
   useEffect(() => {
     let ref = collection(db, 'User_Collection');
-    let qry = query(ref, where('user_role', '==', 2));
+    let qry = query(ref, where('user_role', '==', 1));
 
     const unsub = onSnapshot(qry, async snapshot => {
       let results = [];
@@ -30,8 +21,6 @@ const usePassenger = () => {
           id: passengerDoc.id,
         });
       }
-
-      // results.sort((a, b) => b.createdAt - a.createdAt);
 
       setDocuments(results);
     });

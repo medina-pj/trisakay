@@ -8,7 +8,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
-import DashboardIcon from '@mui/icons-material/Dashboard';
 import GroupIcon from '@mui/icons-material/Group';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -34,6 +33,11 @@ const SidebarItems = [
     name: 'Passengers',
     icon: <GroupIcon />,
     path: '/accounts/passenger',
+  },
+  {
+    name: 'Settings',
+    icon: <AdminPanelSettingsIcon />,
+    path: '/settings',
   },
 ];
 

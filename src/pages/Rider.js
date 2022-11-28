@@ -9,9 +9,10 @@ import { Box } from '@mui/material';
 
 // hooks
 import useRider from '../hooks/useRider';
+import ButtonField from '../components/Button';
 
 export default function Rider() {
-  const { documents } = useRider();
+  const { documents, onApprove, onDecline } = useRider();
 
   return (
     <Box>
@@ -23,11 +24,16 @@ export default function Rider() {
               <TableCell>Name</TableCell>
               <TableCell>Contact Number</TableCell>
               <TableCell>Address</TableCell>
+              <TableCell>Account Status</TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {documents &&
               documents.map((data, i) => {
+                const name = `${data.user_firstname} ${data.user_lastname}`;
+
                 return (
                   <TableRow
                     key={data.id}
@@ -36,9 +42,30 @@ export default function Rider() {
                     <TableCell component='th' scope='data'>
                       {i + 1}
                     </TableCell>
-                    <TableCell>{data.user_name}</TableCell>
+                    <TableCell>{name}</TableCell>
                     <TableCell>{data.user_contact}</TableCell>
                     <TableCell>{data.user_address}</TableCell>
+                    <TableCell>{data?.user_status}</TableCell>
+                    <TableCell>
+                      {(data?.user_status === 'Pending' || data?.user_status === 'Declined') && (
+                        <ButtonField
+                          label={'Approve'}
+                          size={'small'}
+                          color={'success'}
+                          onClick={() => onApprove(data.id)}
+                        />
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {(data?.user_status === 'Pending' || data?.user_status === 'Approved') && (
+                        <ButtonField
+                          label={'Decline'}
+                          size={'small'}
+                          color={'error'}
+                          onClick={() => onDecline(data.id)}
+                        />
+                      )}
+                    </TableCell>
                   </TableRow>
                 );
               })}

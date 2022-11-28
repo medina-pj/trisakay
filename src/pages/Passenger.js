@@ -28,6 +28,8 @@ const Passenger = () => {
           <TableBody>
             {documents &&
               documents.map((data, i) => {
+                const name = `${data.user_firstname} ${data.user_lastname}`;
+
                 return (
                   <TableRow
                     key={data.id}
@@ -36,7 +38,7 @@ const Passenger = () => {
                     <TableCell component='th' scope='data'>
                       {i + 1}
                     </TableCell>
-                    <TableCell>{data.user_name}</TableCell>
+                    <TableCell>{name}</TableCell>
                     <TableCell>{data.user_contact}</TableCell>
                     <TableCell>{data.user_address}</TableCell>
                   </TableRow>

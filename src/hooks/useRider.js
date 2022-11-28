@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { db } from '../firebase/config';
 
 // firebase/firestore
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, doc, setDoc } from 'firebase/firestore';
 
 const useRider = () => {
   const [error, setError] = useState(null);
@@ -12,7 +12,7 @@ const useRider = () => {
 
   useEffect(() => {
     let ref = collection(db, 'User_Collection');
-    let qry = query(ref, where('user_role', '==', 1));
+    let qry = query(ref, where('user_role', '==', 2));
 
     const unsub = onSnapshot(qry, async snapshot => {
       let results = [];
@@ -24,15 +24,49 @@ const useRider = () => {
         });
       }
 
-      // results.sort((a, b) => b.createdAt - a.createdAt);
-
       setDocuments(results);
     });
 
     return () => unsub();
   }, []);
 
-  return { error, documents };
+  const onApprove = async id => {
+    try {
+      setError('');
+
+      const docRef = doc(db, 'User_Collection', id);
+
+      await setDoc(
+        docRef,
+        {
+          user_status: 'Approved',
+        },
+        { merge: true }
+      );
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  const onDecline = async id => {
+    try {
+      setError('');
+
+      const docRef = doc(db, 'User_Collection', id);
+
+      await setDoc(
+        docRef,
+        {
+          user_status: 'Declined',
+        },
+        { merge: true }
+      );
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  return { error, documents, onApprove, onDecline };
 };
 
 export default useRider;

@@ -14,8 +14,8 @@ import useAdmin from '../hooks/useAdmin';
 import useAuthContext from '../hooks/useAuthContext';
 
 const Login = () => {
-  const [email, setEmail] = useState('admin+01@gmail.com');
-  const [password, setPassword] = useState('123456789');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   // hooks
   const { error, login } = useAdmin();

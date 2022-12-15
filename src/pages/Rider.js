@@ -25,6 +25,7 @@ export default function Rider() {
               <TableCell>Contact Number</TableCell>
               <TableCell>Address</TableCell>
               <TableCell>Account Status</TableCell>
+              <TableCell>License Url</TableCell>
               <TableCell></TableCell>
               <TableCell></TableCell>
             </TableRow>
@@ -46,6 +47,11 @@ export default function Rider() {
                     <TableCell>{data.user_contact}</TableCell>
                     <TableCell>{data.user_address}</TableCell>
                     <TableCell>{data?.user_status}</TableCell>
+                    <TableCell>
+                      <a href={data?.license_url} target='_blank' rel='noreferrer noopener'>
+                        {data?.license_url ? 'Open File' : 'No File Uploaded'}
+                      </a>
+                    </TableCell>
                     <TableCell>
                       {(data?.user_status === 'Pending' || data?.user_status === 'Declined') && (
                         <ButtonField

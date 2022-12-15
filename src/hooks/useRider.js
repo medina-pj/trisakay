@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { db } from '../firebase/config';
 
 // firebase/firestore
-import { collection, query, where, onSnapshot, doc, setDoc } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, doc, setDoc, getDoc } from 'firebase/firestore';
 
 const useRider = () => {
   const [error, setError] = useState(null);
@@ -18,8 +18,12 @@ const useRider = () => {
       let results = [];
 
       for (const riderDoc of snapshot.docs) {
+        const vehicleRef = doc(db, 'Vehicle_Collection', riderDoc.id);
+        const vehicleSnap = await getDoc(vehicleRef);
+
         results.push({
           ...riderDoc.data(),
+          ...vehicleSnap.data(),
           id: riderDoc.id,
         });
       }
